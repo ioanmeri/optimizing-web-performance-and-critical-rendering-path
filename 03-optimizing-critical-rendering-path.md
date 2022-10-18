@@ -83,6 +83,47 @@ Browsers do selectors matching from the right side to the left
 
 ---
 
-```
+## Paint Profiler
 
-```
+In Chrome: More Tools > Rendering > Check **Paint flashing**
+
+It will show you when and where painting is happening on the page.
+
+Confirm slow animation by opening a layer tab
+
+More tools > **Layers**
+
+The is one useful piece of data: the **Paint count**
+
+e.g.: The sidebar layer is being repainted all the time, this is what we want to avoid.
+
+---
+
+## Performance Analysis
+
+If the problem was caused by JS, the issue would exist only in the **Main** area, also adding one class is (sidenav is open) is very simple.
+
+The problem is in animating the **left** CSS property
+
+Can try animate the width but the frame rate is still 17.
+
+**Layout and paint are triggered in every paint**
+
+Instead, you should use **transform**. We achieve a good animation, the frame rate is around 60.
+
+There are still
+
+- **Recalculate Style**
+- **Update Layer Tree**
+- **Compose**
+
+but we lose the:
+
+- **Layout**
+- **Paint**
+
+These are great news.
+
+Enable paint flashing to confirm this. There is flashing only at the end, but is seems that we still have unnecessary paint (paint count increases by 1 every time we open the sidenav).
+
+---
