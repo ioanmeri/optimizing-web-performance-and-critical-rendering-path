@@ -127,3 +127,57 @@ These are great news.
 Enable paint flashing to confirm this. There is flashing only at the end, but is seems that we still have unnecessary paint (paint count increases by 1 every time we open the sidenav).
 
 ---
+
+## How Layout works
+
+We should understand the implication of every property we try to animate.
+
+If we move the sidebar to a new layer, we don't paint it all the time.
+
+With a separate layer, we can slide, rotate, change opacity etc.
+
+Creating layers is an automated process and we should let the browser manage it.
+
+But if you have a painting issue you might want to promote an element to it's own layer.
+
+---
+
+## Creating a new layer
+
+The best way to create a new layer is to use the:
+
+```
+will-change: transform;
+```
+
+property. That tells the browser that we intent to change the element's transform property at some point.
+
+Most browsers react to this by **putting an element on it's own element**.
+
+For older browsers can use the property:
+
+```
+transform: translateZ(0);
+```
+
+```
+.sidebar {
+  left: -450px;
+  width: 450px;
+  position: absolute;
+  transition: 1s;
+  will-change: transform;
+}
+
+.sidebar.is-open {
+  transform: translateX(450px);
+}
+```
+
+No green flashing with the Paint profiler!
+
+Confirm this by tracking the paint count
+
+The paint is no more triggered.
+
+---
