@@ -322,6 +322,31 @@ So if you need to animate `background-color`, you can't eliminate the paint, it 
 
 ---
 
+## JS vs CSS
 
+Two possibilities of animations CSS or JS
 
+The faster animations is the one that doesn't trigger the layout or paint.
+
+**Style** > **Layout** > **Paint** > **Composite**
+
+e.g. animating the `width` property will always trigger the layout, no matter if you do it with JS or CSS.
+
+If you trigger layout, you trigger paint.
+
+Or maybe you animate the `background-color`, that's not going to trigger the layout but will trigger the paint, and paint is expensive.
+
+The beginning of the frame is the best time to run JS, to achieve this you should you:
+
+### Request Animation Frame
+
+**Request Animation frame** is an API that will schedule your JS to run at the right point of every frame.
+
+- Guarantee that your JavaScript will run at the start of a frame
+
+- That gives the browser as much time as possible to run other activities, like style calculation, layout, paint, composite
+
+- Don't use **setTimeout** or **setInterval** for animations
+
+---
 
