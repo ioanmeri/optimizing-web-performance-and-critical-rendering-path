@@ -210,3 +210,21 @@ So:
 
 ---
 
+## Older browsers
+
+In older browser the header while scrolling is totally green. So we have a painting problem again.
+
+The layout and paint are triggered during the scroll in each frame. This is regular scrolling, nothing special, no JS.
+
+If we look at layers, it seems that different browser engines or even different versions may manage layers in different way.
+
+To fix this problem, let's promote the element to a layer
+
+```
+will-change: transform;
+```
+
+No more paint and there is a new layer. But how can we know if we should promote an element to a new layer?
+
+---
+
