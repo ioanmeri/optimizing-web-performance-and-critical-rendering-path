@@ -228,3 +228,100 @@ No more paint and there is a new layer. But how can we know if we should promote
 
 ---
 
+## Properties impact
+
+Different CSS properties have a different effect on the rendering process.
+
+
+Example
+
+### left
+
+Changing `left` alters the geometry of the element. That means that it may affect the position or size of other elements on the page, both of which require the browser to perform **layout operations**.
+
+Once those layout operations have completed any damaged pixels will need to be **painted** and the page must then be **composited** together.
+
+
+### width
+
+It also triggers the pipeline
+
+### transform
+
+Changing `transform` does not trigger any geometry changes or painting. which is very good. This means that the operation can likely be carried out by the **compositor thread** with the help of the **GPU**.
+
+In the rendering process, the main thread handles most of the code we send to the user. 
+
+The compositor thread rasterize each layer. A layer could be very large so the compositor thread divides it into tiles and sends each tile off to raster threads, it rasterizes each tile and stores them in GPU memory. It's very easy for the GPU to do transformations with these tiles.
+
+GPU is higly optimized for tasks like moving pixels around and changing opacity. Once a layer it's created, it's trivial for the GPU to move those pixel around and composite them together. But the GPU is very limited for other things, for example changing color.
+
+In order to change color, we need to repaint it on CPU and re-upload to the GPU, and this might be expensive.
+
+On the other hand, transform doesn't trigger the layout, neither paint **IF** the element has its **OWN LAYER**
+
+Transform is the best property to animate our sidebar.
+
+### Animating the transform property if the element has each own layer, looks like this:
+
+**Style** > **Composite**
+
+The GPU moves those pixels and composes them together.
+
+### Animating left property
+
+**Style** > **Layout** > **Paint** > **Composite**
+
+we still have a layout and paint and this is what we want to avoid.
+
+If we animate any properties that affect the element position like:
+- left
+- right
+- top
+- bottom...
+
+or any properties that affects the elements geometry like
+- width
+- height
+- padding
+- margin...
+
+they will trigger the layout.
+
+If you trigger the layout, any affected pixels will need to be repainted.
+
+On the other hand
+
+### Animating the "paint only"
+
+This will always trigger the paint
+
+**Style** > **Paint** > **Composite**
+
+no matter if the element has it's own layer, or not.
+
+If you change any visual property like:
+
+- Background color
+- color
+- visibility
+- shadows etc.
+
+it will trigger the paint. Affected area needs to be repainted. Creating new layer in this situation **will be even worse** because:
+
+- The CPU still has to paint affected area
+- Extra layer
+
+So the browser has more work to do in layer management.
+
+In this situation the pipeline looks like this:
+
+**Style** > **Paint** > **Composite**
+
+So if you need to animate `background-color`, you can't eliminate the paint, it will be triggered in any case.
+
+---
+
+
+
+
