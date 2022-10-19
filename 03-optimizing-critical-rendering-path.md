@@ -174,10 +174,39 @@ transform: translateZ(0);
 }
 ```
 
-No green flashing with the Paint profiler!
+No more green flashing with the Paint profiler!
 
 Confirm this by tracking the paint count
 
-The paint is no more triggered.
+**The layout and paint is no more triggered.**
 
 ---
+
+## Multiple Layers
+
+We can promote every element to a layer.
+
+```
+body * {
+  will-change: transform;
+}
+```
+
+but in this way we have thousands of layers and the browser has too much work to compose them.
+
+The more layers you have, the more time will be spend on layer managament and composing it.
+
+If you have too many layers the composite and update layer tree will grow very large.
+
+There is a trade off between reducing **Paint** time and **Composite Layers**
+
+So:
+
+- Promote layers only when it makes sense
+- Avoid Paint problem
+- Let the browser manage layers
+- Layer management and compositing are not free
+- Never promote elements without profiling
+
+---
+
