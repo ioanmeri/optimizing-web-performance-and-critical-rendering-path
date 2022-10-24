@@ -75,3 +75,30 @@ So, we need to ensure that we deliver CSS to the browser, as quickly as possible
 Secondly, we don't need all megabytes to render the page. Initially we need to render CSS that really needs to render the pixels.
 
 ---
+
+## Imports
+
+It's an issue if you import a CSS from another CSS file:
+
+e.g.:
+
+`demo-css.css`
+
+```
+@import url('../dist/style.css);
+```
+
+because the second file is waiting to be downloaded.
+
+You can confirm this by opening the network section.
+
+Instead of using import, a better solution is to link CSS to HTML:
+
+```
+<link rel="stylesheet" href="demo-css/demo-css.css">
+<link rel="stylesheet" href="dist/style.css">
+```
+
+and the browser will download them in parallel.
+
+---
