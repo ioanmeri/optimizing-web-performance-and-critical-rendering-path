@@ -102,3 +102,32 @@ Instead of using import, a better solution is to link CSS to HTML:
 and the browser will download them in parallel.
 
 ---
+
+## Non Render Blocking CSS
+
+What's the **minimum** amount of resources that we can ship to render the page?
+
+It makes sense to split styles into multiple files:
+
+```
+<link href="style.css" rel="stylesheet">
+
+<link href="print.css" rel="stylesheet"
+  media="print">
+
+<link href="mobile.css" rel="stylesheet"
+  media="screen and (max-width: 768px)">
+
+<link href="portrait.css" rel="stylesheet"
+  media="all and (orientation: portrait)">
+```
+
+The browser assumes that it's style is render blocking. However, we can also tell the browser when the stylesheet will be applied.
+
+Now, it's not render blocking anymore.
+
+When we compare the different styles, we reduce the number of critical bytes. It still downloads all stylesheet, but it will not block rendering on print CSS, and the network looks much different.
+
+The browser downloads multiple files in parallel.
+
+---
