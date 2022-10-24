@@ -49,3 +49,29 @@ What if you have a large image?
 The good things is that images do not the render of the page. Browser will render a page even if an image has not arrived at all.
 
 ---
+
+## Render Blocking CSS
+
+CSS is a **render blocking** resource (by default)
+
+The browser will not start creating the CSS Object Model without fully downloaded CSS.
+
+CSS is critical for rendering a page. It will not do Layout or Paint because it needs a Render Tree and Render Tree needs CSS Object Model.
+
+The browser cannot generate Render Tree until it gets a full **Style Sheet**, we can't use partial style sheet, imagine a rule:
+
+```
+* {
+  display: none !important;
+}
+```
+
+at the end of the style.
+
+> Browser is as quick as your slowest CSS file (or any critical resource)
+
+So, we need to ensure that we deliver CSS to the browser, as quickly as possible.
+
+Secondly, we don't need all megabytes to render the page. Initially we need to render CSS that really needs to render the pixels.
+
+---
