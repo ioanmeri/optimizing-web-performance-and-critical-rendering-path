@@ -190,3 +190,52 @@ You should **avoid base64 encoding assets** in your CSS, instead of this, a bett
 - or embedded SVG directly into HTML
 
 ---
+
+## Minification and Gzip Compression
+
+Network speed is the bottleneck of any web application. It's important to keep file size small, because nothing will render until all render blocking assets are downloaded.
+
+### Minification removes
+
+- Whitespaces
+- Comments
+- Non-required semicolons
+
+CSS files are often larger from what they need to be:
+
+`Input CSS`
+
+```
+/* headings */
+h1 {
+  color: red;
+}
+```
+
+`Minified Output`
+
+```
+h1{color:red}
+```
+
+There are many ways to minify your styles
+
+- gulp
+- grunt
+- webpack
+- some frameworks
+- online tools
+
+We can get even better results with file compression:
+
+### Gzip compression
+
+**Gzip** is incredibly efficient at compressing repetitive strings
+
+| Input CSS | Minified Output | Minified & Gzip |
+| --------- | --------------- | --------------- |
+| 187kb     | 156kb           | 20kb            |
+
+> Netflix saw a 43% decrease in their bandwidth bill after turning on GZip"
+
+---
