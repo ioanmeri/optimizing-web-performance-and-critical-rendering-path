@@ -131,3 +131,35 @@ When we compare the different styles, we reduce the number of critical bytes. It
 The browser downloads multiple files in parallel.
 
 ---
+
+## Unused Styles
+
+Larger files take longer to download and longer to parse.
+
+There are many online tools that may help us detect unused styles, but Chrome browser has it's own
+
+Click on **More Tools > Coverage**
+
+The **start recording**, as using the site.
+
+In `styles.css`, the red section of the bar represents unused styles
+
+Check percentage of **Unused Bytes**!
+
+### Cutting down unused files
+
+- More reliable
+- Easier to maintain
+- Simpler to debug
+- Reduces the number of critical bytes
+- Optimizes critical rendering path
+
+Be careful with libraries like bootstrap, they come with many styles that probably you don't need.
+
+You should never import a whole library if you don't use it.
+
+All styles are downloaded and block the render of the page
+
+Thing about if you really need a CSS library, and if you do make sure you import only those styles, that you really need because the file size can grow very fast.
+
+---
