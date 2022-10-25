@@ -163,3 +163,30 @@ All styles are downloaded and block the render of the page
 Thing about if you really need a CSS library, and if you do make sure you import only those styles, that you really need because the file size can grow very fast.
 
 ---
+
+## Base64
+
+Instead of sending multiple HTTP requests for each icon you can get everything in one with CSS:
+
+```
+.icon.bicycle {
+  background-image: url(data:image/png;base64,vsdgfsgahdsv)
+}
+```
+
+We reduce the number of requests and both icons and styles arrive at the same time.
+
+But with Base64 encoding we increase the style sheet file size.
+
+Browser is loading CSS with heavy information, and CSS is render blocking.
+
+> We turned hundreds of kilobytes of **non-blocking** resources into **blocking** ones!!!
+
+Also it forces all assets bytes to be downloaded, even if they will never be used.
+
+You should **avoid base64 encoding assets** in your CSS, instead of this, a better solution is:
+
+- to use font icons
+- or embedded SVG directly into HTML
+
+---
