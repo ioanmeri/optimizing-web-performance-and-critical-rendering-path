@@ -239,3 +239,16 @@ We can get even better results with file compression:
 > Netflix saw a 43% decrease in their bandwidth bill after turning on GZip"
 
 ---
+
+## Optimizing Critical Resources and Critical Bytes Summary
+
+**CSS is render blocking!** (by default)
+
+The browser is as quick as your slowest render blocking file
+
+### Reduce
+
+- The number of critical resources
+- The number of critical bytes
+
+---
